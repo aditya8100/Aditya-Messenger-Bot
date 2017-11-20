@@ -113,7 +113,7 @@ function handleMessage(sender_psid, received_message) {
                     "message": response }
           }, (err, res, body) => {
             if (!err) {
-                console.log(request_body.message + ' :message sent!');
+                console.log('message sent!');
             } else {
                 console.error("Unable to send message:" + err);
             }
