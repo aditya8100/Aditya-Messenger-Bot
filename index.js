@@ -113,13 +113,13 @@ function handleMessage(sender_psid, received_message) {
                     "message": response }
           }, (err, res, body) => {
             if (!err) {
-                console.log('message sent!');
+                console.log('message sent! in AI');
             } else {
                 console.error("Unable to send message:" + err);
             }
         }); 
         
-
+        return;
     } else if (received_message.attachments) {
         let imageUrl = received_message.attachments[0].payload.url;
 
@@ -187,7 +187,7 @@ function callSendAPI(sender_psid, response) {
         "json": request_body
       }, (err, res, body) => {
         if (!err) {
-            console.log('message sent!');
+            console.log('message sent! in callsendAPI()');
         } else {
             console.error("Unable to send message:" + err);
         }
