@@ -95,6 +95,7 @@ function handleMessage(sender_psid, received_message) {
         apiai.on('response', (response) => {
             let aiText = response.result.fulfillment.speech;
             console.log('AI Text: ' + aiText);
+            aiTextReturned = aiText
         });
 
         apiai.on('error', (error) => {
@@ -110,7 +111,7 @@ function handleMessage(sender_psid, received_message) {
             "json": { "recipient": {
                         "id": sender_psid
                         },
-                    "message": {"text": aiText} }
+                    "message": {"text": aiTextReturned} }
           }, (err, res, body) => {
             if (!err) {
                 console.log('message sent! in AI');
