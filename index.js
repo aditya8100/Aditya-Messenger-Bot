@@ -110,7 +110,7 @@ function handleMessage(sender_psid, received_message) {
             "json": { "recipient": {
                         "id": sender_psid
                         },
-                    "message": response }
+                    "message": {"text": aiText} }
           }, (err, res, body) => {
             if (!err) {
                 console.log('message sent! in AI');
