@@ -95,10 +95,6 @@ function handleMessage(sender_psid, received_message) {
         apiai.on('response', (response) => {
             let aiText = response.result.fulfillment.speech;
             console.log('AI Text: ' + aiText);
-
-            response = {
-                "text": aiText
-            }
         });
 
         apiai.on('error', (error) => {
@@ -106,6 +102,23 @@ function handleMessage(sender_psid, received_message) {
         });
 
         apiai.end();
+        
+        request({
+            "uri": "https://graph.facebook.com/v2.6/me/messages",
+            "qs": { "access_token": "EAAB4eGl2AZBABAIYPRzEHOV6xYuomrXOOl5houOwtdUV2LHpTGzm0UlEIRPXl0RCl5pJ9tPAB4qm91y36rniQkXZCyeWEuYO4FZAVJQ5MmgCvcmLVr8SOyF6WHJ75dJLTMRc5lFNKVjZB98bDTUujiZBHWYJww4tXbxzxAYROaQZDZD" },
+            "method": "POST",
+            "json": { "recipient": {
+                        "id": sender_psid
+                        },
+                    "message": response }
+          }, (err, res, body) => {
+            if (!err) {
+                console.log(request_body.message + ' :message sent!');
+            } else {
+                console.error("Unable to send message:" + err);
+            }
+        }); 
+        
 
     } else if (received_message.attachments) {
         let imageUrl = received_message.attachments[0].payload.url;
@@ -178,5 +191,5 @@ function callSendAPI(sender_psid, response) {
         } else {
             console.error("Unable to send message:" + err);
         }
-      }); 
+    }); 
 }
