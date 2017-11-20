@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const app = express().use(bodyParser.json());
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+const PAGE_ACCESS_TOKEN = "EAAB4eGl2AZBABAIYPRzEHOV6xYuomrXOOl5houOwtdUV2LHpTGzm0UlEIRPXl0RCl5pJ9tPAB4qm91y36rniQkXZCyeWEuYO4FZAVJQ5MmgCvcmLVr8SOyF6WHJ75dJLTMRc5lFNKVjZB98bDTUujiZBHWYJww4tXbxzxAYROaQZDZD"
 const apiaiApp = require('apiai')("faa5c2fbf7c84495991bfc8ef51109e4");
 let sender_psid;
 
@@ -95,7 +95,21 @@ function handleMessage(sender_psid, received_message) {
         apiai.on('response', (response) => {
             let aiText = response.result.fulfillment.speech;
             console.log('AI Text: ' + aiText);
-            aiTextReturned = aiText
+            request({
+                url: 'https://graph.facebook.com/v2.6/me/messages',
+                qs: {access_token: PAGE_ACCESS_TOKEN},
+                method: 'POST',
+                json: {
+                  recipient: {id: sender_psid},
+                  message: {text: aiText}
+                }
+              }, (error, response) => {
+                if (error) {
+                    console.log('Error sending message: ', error);
+                } else if (response.body.error) {
+                    console.log('Error: ', response.body.error);
+                }
+              }); 
         });
 
         apiai.on('error', (error) => {
@@ -103,22 +117,6 @@ function handleMessage(sender_psid, received_message) {
         });
 
         apiai.end();
-        
-        request({
-            "uri": "https://graph.facebook.com/v2.6/me/messages",
-            "qs": { "access_token": "EAAB4eGl2AZBABAIYPRzEHOV6xYuomrXOOl5houOwtdUV2LHpTGzm0UlEIRPXl0RCl5pJ9tPAB4qm91y36rniQkXZCyeWEuYO4FZAVJQ5MmgCvcmLVr8SOyF6WHJ75dJLTMRc5lFNKVjZB98bDTUujiZBHWYJww4tXbxzxAYROaQZDZD" },
-            "method": "POST",
-            "json": { "recipient": {
-                        "id": sender_psid
-                        },
-                    "message": {"text": aiTextReturned} }
-          }, (err, res, body) => {
-            if (!err) {
-                console.log('message sent! in AI');
-            } else {
-                console.error("Unable to send message:" + err);
-            }
-        }); 
         
         return;
     } else if (received_message.attachments) {
@@ -183,7 +181,7 @@ function callSendAPI(sender_psid, response) {
 
     request({
         "uri": "https://graph.facebook.com/v2.6/me/messages",
-        "qs": { "access_token": "EAAB4eGl2AZBABAIYPRzEHOV6xYuomrXOOl5houOwtdUV2LHpTGzm0UlEIRPXl0RCl5pJ9tPAB4qm91y36rniQkXZCyeWEuYO4FZAVJQ5MmgCvcmLVr8SOyF6WHJ75dJLTMRc5lFNKVjZB98bDTUujiZBHWYJww4tXbxzxAYROaQZDZD" },
+        "qs": { "access_token": PAGE_ACCESS_TOKEN },
         "method": "POST",
         "json": request_body
       }, (err, res, body) => {
