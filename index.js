@@ -40,7 +40,7 @@ function capitalizeFirstLetter(string) {
 }
 
 app.post("/ai", (req, res) => {
-    if (req.body.result.action === 'weather' && req.body.parameters['date'].length == 0) {
+    if (req.body.result.action === 'weather' && req.body.result.parameters['date'].length == 0) {
         let city = req.body.result.parameters['geo-city']
         city = city.toString().replace(' ', '+')
         let restUrl = 'https://api.openweathermap.org/data/2.5/weather?APPID=62c3e8807b031a9af517a8208bee4328&q=' + city;
@@ -63,7 +63,7 @@ app.post("/ai", (req, res) => {
 
             callSendAPI(sender_psid, response);
         });
-    } else if (req.body.result.action === 'weather' && req.body.parameters.date.length != 0) {
+    } else if (req.body.result.action === 'weather' && req.body.result.parameters.date.length != 0) {
         let city = req.body.result.parameters['geo-city'];
         let date = req.body.result.parameters['date'];
         city = city.replace(' ', '+');
