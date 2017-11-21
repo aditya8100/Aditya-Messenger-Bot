@@ -88,7 +88,7 @@ app.post("/ai", (req, res) => {
         
                         let keys = dataJSON.daily.data;
                         keys.forEach(function (weatherData) {
-                            console.log(weatherData);
+                            console.log("Weather time: " + weatherData.time + " , Given date: " + dateUnix);
                             if (weatherData.time === dateUnix) {
                                 msg = weatherData.summary + ' High of ' + weatherData.temperatureHigh + ' and a low of ' + weatherData.temperatureLow;
                             }
