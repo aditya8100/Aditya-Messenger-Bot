@@ -93,6 +93,7 @@ app.post("/ai", (req, res) => {
                                 msg = weatherData.summary + ' High of ' + weatherData.temperatureHigh + ' and a low of ' + weatherData.temperatureLow;
                             }
                         });
+                        console.log("Message: " + msg);
                     } else {
                         msg = "Sorry, I couldn't fetch the details for this location."
                         console.log("Error: " + err);
