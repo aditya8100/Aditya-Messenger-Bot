@@ -64,6 +64,7 @@ app.post("/ai", (req, res) => {
             callSendAPI(sender_psid, response);
         });
     } else if (req.body.result.action === 'weather' && req.body.result.parameters.date.length != 0) {
+        console.log('Entered date weather forecast block!')
         let city = req.body.result.parameters['geo-city'];
         let date = req.body.result.parameters['date'];
         city = city.toString().replace(' ', '+');
