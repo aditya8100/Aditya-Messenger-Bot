@@ -112,16 +112,11 @@ app.post("/ai", (req, res) => {
     } else if (req.body.result.action === 'email') {
         let emailID = req.body.result.parameters.email[0];
         let emailBody = req.body.result.parameters.any[0];
-        emailBody = emailBody.replace(" ", "%20")
-        let response1 = {
-            "text": "Click the below link to send the email!"
-        };
-
-        callSendAPI(sender_psid, response1);
+        emailBody = emailBody.replace(" ", "%20");
 
         let msg = 'mailto:' + emailID + '?subject=Sent%20from%20Messenger%20Bot&body=' + emailBody;
 
-        response1 = {
+        let response1 = {
             "text": msg
         }
 
