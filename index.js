@@ -78,9 +78,10 @@ app.post("/ai", (req, res) => {
 
                 latitude = data.results[0].geometry.location.lat;
                 longitude = data.results[0].geometry.location.lng;
-                
+
                 let dateUnix = moment(date, 'YYYY-MM-DD').unix();
                 let restUrlForWeather = 'https://api.darksky.net/forecast/334ca9c38f3fb1e6c4440d477629431a/' + latitude + ',' + longitude;
+                console.log(restUrlForWeather)
                 request.get(restUrlForWeather, (err, res, body) => {
                     if (!err && res.statusCode == 200) {
                         let dataJSON = JSON.parse(body);
