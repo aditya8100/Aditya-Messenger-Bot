@@ -109,10 +109,27 @@ app.post("/ai", (req, res) => {
                 console.log("Error: " + err);
             }
         });
+    } else if (req.body.result.action === 'email') {
+        let emailID = req.body.result.email[0];
+        let emailBody = req.body.result.any[0];
 
-        
+        let response1 = {
+            "text": "Click the below link to send the email!"
+        };
+
+        callSendAPI(sender_psid, response1);
+
+        let msg = 'mailto:' + emailID + '?subject=Sent from messenger bot&body=' + emailBody;
+
+        response1 = {
+            "text": msg
+        }
+
+        callSendAPI(sender_psid, response1);
     }
 });
+
+app.post('/')
 
 app.get('/webhook', (req, res) => {
     let VERIFY_TOKEN = 'aditya';
