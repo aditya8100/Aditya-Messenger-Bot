@@ -66,7 +66,7 @@ app.post("/ai", (req, res) => {
     } else if (req.body.result.action === 'weather' && req.body.result.parameters.date.length != 0) {
         let city = req.body.result.parameters['geo-city'];
         let date = req.body.result.parameters['date'];
-        city = city.replace(' ', '+');
+        city = city.toString().replace(' ', '+');
         let lat, lng;
         let msg;
         let restUrlForCoordinates = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + city + '&key=AIzaSyDl13M8F847qaijXKn-xQT5KxincNWPkeY';
