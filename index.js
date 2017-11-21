@@ -119,7 +119,7 @@ app.post("/ai", (req, res) => {
 
         callSendAPI(sender_psid, response1);
 
-        let msg = 'mailto:' + emailID + '?subject=Sent from messenger bot&body=' + emailBody;
+        let msg = 'mailto:' + emailID + '?subject="Sent from messenger bot"&body="' + emailBody + '"';
 
         response1 = {
             "text": msg
