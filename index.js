@@ -67,7 +67,8 @@ app.post("/ai", (req, res) => {
         let city = req.body.result.parameters['geo-city'];
         let date = req.body.result.parameters['date'];
         city = city.toString().replace(' ', '+');
-        let lat, lng;
+        let latitude;
+        let longitude;
         let msg;
         let restUrlForCoordinates = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + city + '&key=AIzaSyDl13M8F847qaijXKn-xQT5KxincNWPkeY';
 
@@ -75,17 +76,17 @@ app.post("/ai", (req, res) => {
             if (!err && res.statusCode == 200) {
                 let data = JSON.parse(body);
 
-                lat = data.results[0].geometry.location.lat;
-                lng = data.results[0].geometry.location.lng;
+                latitude = data.results[0].geometry.location.lat;
+                longitude = data.results[0].geometry.location.lng;
             } else {
                 console.log("Error: " + err);
             }
         });
 
-        console.log("Lat: " + lat + ", long: " + lng);
+        console.log("Lat: " + latitude + ", long: " + longitude);
 
         let dateUnix = moment(date, 'YYYY-MM-DD').unix();
-        let restUrlForWeather = 'https://api.darksky.net/forecast/334ca9c38f3fb1e6c4440d477629431a/' + lat + ',' + lng;
+        let restUrlForWeather = 'https://api.darksky.net/forecast/334ca9c38f3fb1e6c4440d477629431a/' + latitude + ',' + longitude;
         request.get(restUrlForWeather, (err, res, body) => {
             if (!err && res.statusCode == 200) {
                 let dataJSON = JSON.parse(body);
