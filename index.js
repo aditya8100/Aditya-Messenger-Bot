@@ -80,8 +80,9 @@ app.post("/ai", (req, res) => {
             } else {
                 console.log("Error: " + err);
             }
-            console.log("Lat: " + lat + ", long: " + lng);
         });
+
+        console.log("Lat: " + lat + ", long: " + lng);
 
         let dateUnix = moment(date, 'YYYY-MM-DD').unix();
         let restUrlForWeather = 'https://api.darksky.net/forecast/334ca9c38f3fb1e6c4440d477629431a/' + lat + ',' + lng;
