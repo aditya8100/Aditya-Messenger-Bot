@@ -79,7 +79,6 @@ app.post("/ai", (req, res) => {
                 latitude = data.results[0].geometry.location.lat;
                 longitude = data.results[0].geometry.location.lng;
 
-                let dateUnix = moment(date, 'YYYY-MM-DD').unix();
                 let restUrlForWeather = 'https://api.darksky.net/forecast/334ca9c38f3fb1e6c4440d477629431a/' + latitude + ',' + longitude;
                 console.log(restUrlForWeather)
                 request.get(restUrlForWeather, (err, res, body) => {
@@ -88,8 +87,9 @@ app.post("/ai", (req, res) => {
         
                         let keys = dataJSON.daily.data;
                         keys.forEach(function (weatherData) {
-                            console.log("Weather time: " + weatherData.time + " , Given date: " + dateUnix);
-                            if (weatherData.time === dateUnix) {
+                            let weatherDateNormal = moment.unix(weatherData.time).format("YYYY-MM-DD");
+                            console.log("Weather time: " + weatherDateNormal + " , Given date: " + date);
+                            if (weatherDateNormal === date) {
                                 msg = weatherData.summary + ' High of ' + weatherData.temperatureHigh + ' and a low of ' + weatherData.temperatureLow;
                             }
                         });
