@@ -64,7 +64,6 @@ app.post("/ai", (req, res) => {
             callSendAPI(sender_psid, response);
         });
     } else if (req.body.result.action === 'weather' && req.body.result.parameters.date.length != 0) {
-        console.log('Entered date weather forecast block!')
         let city = req.body.result.parameters['geo-city'];
         let date = req.body.result.parameters['date'];
         city = city.toString().replace(' ', '+');
@@ -85,7 +84,7 @@ app.post("/ai", (req, res) => {
 
         let dateUnix = moment(date, 'YYYY-MM-DD').unix();
         let restUrlForWeather = 'https://api.darksky.net/forecast/334ca9c38f3fb1e6c4440d477629431a/' + lat + ',' + lng;
-
+        console.log('Date: ' + date +  ', dateUnix' + dateUnix + ', URL: ' + restUrlForWeather);
         request.get(restUrlForWeather, (err, res, body) => {
             if (!err && res.statusCode == 200) {
                 let dataJSON = JSON.parse(body);
