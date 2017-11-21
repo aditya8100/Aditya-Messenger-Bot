@@ -80,11 +80,11 @@ app.post("/ai", (req, res) => {
             } else {
                 console.log("Error: " + err);
             }
+            console.log("Lat: " + lat + ", long: " + lng);
         });
 
         let dateUnix = moment(date, 'YYYY-MM-DD').unix();
         let restUrlForWeather = 'https://api.darksky.net/forecast/334ca9c38f3fb1e6c4440d477629431a/' + lat + ',' + lng;
-        console.log('Date: ' + date +  ', dateUnix' + dateUnix + ', URL: ' + restUrlForWeather);
         request.get(restUrlForWeather, (err, res, body) => {
             if (!err && res.statusCode == 200) {
                 let dataJSON = JSON.parse(body);
