@@ -6,6 +6,7 @@ const request = require('request');
 const app = express().use(bodyParser.json());
 const PAGE_ACCESS_TOKEN = "EAAB4eGl2AZBABAIYPRzEHOV6xYuomrXOOl5houOwtdUV2LHpTGzm0UlEIRPXl0RCl5pJ9tPAB4qm91y36rniQkXZCyeWEuYO4FZAVJQ5MmgCvcmLVr8SOyF6WHJ75dJLTMRc5lFNKVjZB98bDTUujiZBHWYJww4tXbxzxAYROaQZDZD"
 const apiaiApp = require('apiai')("faa5c2fbf7c84495991bfc8ef51109e4");
+const moment = require('moment');
 let sender_psid;
 
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
@@ -39,7 +40,7 @@ function capitalizeFirstLetter(string) {
 }
 
 app.post("/ai", (req, res) => {
-    if (req.body.result.action === 'weather') {
+    if (req.body.result.action === 'weather' && req.body.parameters.date.length == 0) {
         let city = req.body.result.parameters['geo-city']
         city = city.toString().replace(' ', '+')
         let restUrl = 'https://api.openweathermap.org/data/2.5/weather?APPID=62c3e8807b031a9af517a8208bee4328&q=' + city;
@@ -62,6 +63,50 @@ app.post("/ai", (req, res) => {
 
             callSendAPI(sender_psid, response);
         });
+    } else if (req.body.result.action === 'weather' && req.body.parameters.date.length != 0) {
+        let city = req.body.result.parameters['geo-city'];
+        let date = req.body.result.parameters['date'];
+        city = city.replace(' ', '+');
+        let lat, lng;
+        let msg;
+        let restUrlForCoordinates = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + city + '&key=AIzaSyDl13M8F847qaijXKn-xQT5KxincNWPkeY';
+
+        request.get(restUrlForCoordinates, (err, res, body) => {
+            if (!err && res.statusCode == 200) {
+                let data = JSON.parser(body);
+
+                lat = data.results[0].geometry.location.lat;
+                long = data.results[0].geometry.location.lng;
+            } else {
+                console.log("Error: " + err);
+            }
+        });
+
+        let dateUnix = moment(date, 'YYYY-MM-DD').unix();
+        let restUrlForWeather = 'https://api.darksky.net/forecast/334ca9c38f3fb1e6c4440d477629431a/' + lat + ',' + lng;
+
+        request.get(restUrlForWeather, (err, res, body) => {
+            if (!err && res.statusCode == 200) {
+                let dataJSON = JSON.parser(body);
+
+                let keys = dataJSON.daily.data;
+                
+                keys.forEach(function (weatherData) {
+                    if (weatherData.time === dateUnix) {
+                        msg = weatherData.summary + ' High of ' + weatherData.temperatureHigh + ' and a low of ' + weatherData.temperatureLow;
+                    }
+                });
+            } else {
+                msg = "Sorry, I couldn't fetch the details for this location."
+                console.log("Error: " + err);
+            }
+        });
+
+        response = {
+            "text": msg
+        }
+
+        callSendAPI(sender_psid, response);
     }
 });
 
