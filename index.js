@@ -100,13 +100,13 @@ app.post("/ai", (req, res) => {
                 msg = "Sorry, I couldn't fetch the details for this location."
                 console.log("Error: " + err);
             }
+            
+            response = {
+                "text": msg
+            }
+            
+            callSendAPI(sender_psid, response);
         });
-
-        response = {
-            "text": msg
-        }
-
-        callSendAPI(sender_psid, response);
     }
 });
 
