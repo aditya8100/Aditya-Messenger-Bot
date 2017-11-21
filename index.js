@@ -112,6 +112,7 @@ app.post("/ai", (req, res) => {
     } else if (req.body.result.action === 'email') {
         let emailID = req.body.result.parameters.email[0];
         let emailBody = req.body.result.parameters.any[0];
+        emailBody = emailBody.replace(" ", "%20")
         let response1 = {
             "text": "Click the below link to send the email!"
         };
