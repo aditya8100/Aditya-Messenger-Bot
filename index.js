@@ -87,13 +87,12 @@ app.post("/ai", (req, res) => {
                         let dataJSON = JSON.parse(body);
         
                         let keys = dataJSON.daily.data;
-                        
                         keys.forEach(function (weatherData) {
+                            console.log(weatherData);
                             if (weatherData.time === dateUnix) {
                                 msg = weatherData.summary + ' High of ' + weatherData.temperatureHigh + ' and a low of ' + weatherData.temperatureLow;
                             }
                         });
-                        console.log("Message: " + msg);
                     } else {
                         msg = "Sorry, I couldn't fetch the details for this location."
                         console.log("Error: " + err);
