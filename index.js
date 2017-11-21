@@ -73,7 +73,7 @@ app.post("/ai", (req, res) => {
 
         request.get(restUrlForCoordinates, (err, res, body) => {
             if (!err && res.statusCode == 200) {
-                let data = JSON.parser(body);
+                let data = JSON.parse(body);
 
                 lat = data.results[0].geometry.location.lat;
                 long = data.results[0].geometry.location.lng;
@@ -87,7 +87,7 @@ app.post("/ai", (req, res) => {
 
         request.get(restUrlForWeather, (err, res, body) => {
             if (!err && res.statusCode == 200) {
-                let dataJSON = JSON.parser(body);
+                let dataJSON = JSON.parse(body);
 
                 let keys = dataJSON.daily.data;
                 
