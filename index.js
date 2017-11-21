@@ -76,7 +76,7 @@ app.post("/ai", (req, res) => {
                 let data = JSON.parse(body);
 
                 lat = data.results[0].geometry.location.lat;
-                long = data.results[0].geometry.location.lng;
+                lng = data.results[0].geometry.location.lng;
             } else {
                 console.log("Error: " + err);
             }
