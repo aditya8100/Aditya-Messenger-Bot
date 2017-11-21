@@ -79,7 +79,7 @@ app.post("/ai", (req, res) => {
                 latitude = data.results[0].geometry.location.lat;
                 longitude = data.results[0].geometry.location.lng;
 
-                let restUrlForWeather = 'https://api.darksky.net/forecast/334ca9c38f3fb1e6c4440d477629431a/' + latitude + ',' + longitude;
+                let restUrlForWeather = 'https://api.darksky.net/forecast/334ca9c38f3fb1e6c4440d477629431a/' + latitude + ',' + longitude + '?units=si';
                 console.log(restUrlForWeather)
                 request.get(restUrlForWeather, (err, res, body) => {
                     if (!err && res.statusCode == 200) {
@@ -91,7 +91,7 @@ app.post("/ai", (req, res) => {
                             console.log("Weather time: " + weatherDateNormal + " , Given date: " + date);
                             if (weatherDateNormal.toString() == date.toString()) {
                                 console.log("Entered if in weather forecast!s")
-                                msg = weatherData.summary + ' High of ' + weatherData.temperatureHigh + ' and a low of ' + weatherData.temperatureLow;
+                                msg = weatherData.summary + ' High of ' + weatherData.temperatureHigh + ' degree celsius and a low of ' + weatherData.temperatureLow + ' degree celsius';
                             }
                         });
                     } else {
