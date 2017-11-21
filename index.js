@@ -90,6 +90,7 @@ app.post("/ai", (req, res) => {
                             let weatherDateNormal = moment.unix(weatherData.time).format("YYYY-MM-DD");
                             console.log("Weather time: " + weatherDateNormal + " , Given date: " + date);
                             if (weatherDateNormal === date) {
+                                console.log("Entered if in weather forecast!s")
                                 msg = weatherData.summary + ' High of ' + weatherData.temperatureHigh + ' and a low of ' + weatherData.temperatureLow;
                             }
                         });
