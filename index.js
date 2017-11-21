@@ -78,37 +78,37 @@ app.post("/ai", (req, res) => {
 
                 latitude = data.results[0].geometry.location.lat;
                 longitude = data.results[0].geometry.location.lng;
-            } else {
-                console.log("Error: " + err);
-            }
-        });
-
-        console.log("Lat: " + latitude + ", long: " + longitude);
-
-        let dateUnix = moment(date, 'YYYY-MM-DD').unix();
-        let restUrlForWeather = 'https://api.darksky.net/forecast/334ca9c38f3fb1e6c4440d477629431a/' + latitude + ',' + longitude;
-        request.get(restUrlForWeather, (err, res, body) => {
-            if (!err && res.statusCode == 200) {
-                let dataJSON = JSON.parse(body);
-
-                let keys = dataJSON.daily.data;
                 
-                keys.forEach(function (weatherData) {
-                    if (weatherData.time === dateUnix) {
-                        msg = weatherData.summary + ' High of ' + weatherData.temperatureHigh + ' and a low of ' + weatherData.temperatureLow;
+                let dateUnix = moment(date, 'YYYY-MM-DD').unix();
+                let restUrlForWeather = 'https://api.darksky.net/forecast/334ca9c38f3fb1e6c4440d477629431a/' + latitude + ',' + longitude;
+                request.get(restUrlForWeather, (err, res, body) => {
+                    if (!err && res.statusCode == 200) {
+                        let dataJSON = JSON.parse(body);
+        
+                        let keys = dataJSON.daily.data;
+                        
+                        keys.forEach(function (weatherData) {
+                            if (weatherData.time === dateUnix) {
+                                msg = weatherData.summary + ' High of ' + weatherData.temperatureHigh + ' and a low of ' + weatherData.temperatureLow;
+                            }
+                        });
+                    } else {
+                        msg = "Sorry, I couldn't fetch the details for this location."
+                        console.log("Error: " + err);
                     }
+                    
+                    response = {
+                        "text": msg
+                    }
+                    
+                    callSendAPI(sender_psid, response);
                 });
             } else {
-                msg = "Sorry, I couldn't fetch the details for this location."
                 console.log("Error: " + err);
             }
-            
-            response = {
-                "text": msg
-            }
-            
-            callSendAPI(sender_psid, response);
         });
+
+        
     }
 });
 
