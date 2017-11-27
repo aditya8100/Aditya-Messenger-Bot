@@ -122,12 +122,12 @@ app.post("/ai", (req, res) => {
                 "type":"template",
                 "payload":{
                   "template_type":"button",
-                  "text":"What do you want to do next?",
+                  "text":"Click below to send the email",
                   "buttons":[
                     {
                       "type":"web_url",
-                      "url":"https://www.messenger.com",
-                      "title":"Visit Messenger"
+                      "url":msg,
+                      "title":"Send Email!"
                     }
                   ]
                 }
