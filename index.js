@@ -140,8 +140,6 @@ app.post("/ai", (req, res) => {
     }
 });
 
-app.post('/')
-
 app.get('/webhook', (req, res) => {
     let VERIFY_TOKEN = 'aditya';
 
