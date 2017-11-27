@@ -116,7 +116,7 @@ app.post("/ai", (req, res) => {
         emailBody = emailBody.replace(" ", "%20");
 
         let msg = 'mailto:' + emailID + '?subject=Sent%20from%20Messenger%20Bot&body=' + emailBody;
-        let msg1 = "Copy and paste the link above in your browser to send your email!"
+        let msg1 = "Click the link below to send your email!"
         let response1 = {
             "attachment":  {
                 "type": "template",
@@ -127,7 +127,9 @@ app.post("/ai", (req, res) => {
                         {
                             "type": "web_url",
                             "url": msg,
-                            "title": "Send Email!"
+                            "title": "Send Email!",
+                            "webview_height_ratio": "full",
+                            "fallback_url": msg
                         }
                     ]
                 }
