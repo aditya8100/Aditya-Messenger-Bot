@@ -66,6 +66,7 @@ app.post("/ai", (req, res) => {
     } else if (req.body.result.action === 'weather' && req.body.result.parameters.date.length != 0) {
         let city = req.body.result.parameters['geo-city'];
         let date = req.body.result.parameters['date'];
+        let objects = req.body.result.parameters.any[0];
         city = city.toString().replace(' ', '+');
         let latitude;
         let longitude;
@@ -115,9 +116,22 @@ app.post("/ai", (req, res) => {
         emailBody = emailBody.replace(" ", "%20");
 
         let msg = 'mailto:' + emailID + '?subject=Sent%20from%20Messenger%20Bot&body=' + emailBody;
-
+        let msg1 = "Copy and paste the link above in your browser to send your email!"
         let response1 = {
-            "text": msg
+            "attachment":  {
+                "type": "template",
+                "payload": {
+                    "template_type": "button",
+                    "text": msg1,
+                    "buttons": [
+                        {
+                            "type": "web_url",
+                            "url": msg,
+                            "title": "Send Email!"
+                        }
+                    ]
+                }
+            }
         }
 
         callSendAPI(sender_psid, response1);
