@@ -118,8 +118,21 @@ app.post("/ai", (req, res) => {
         let msg = 'mailto:' + emailID + '?subject=Sent%20from%20Messenger%20Bot&body=' + emailBody;
         let msg1 = "Click the link below to send your email!"
         let response1 = {
-            "text": msg
-        }
+            "attachment":{
+                "type":"template",
+                "payload":{
+                  "template_type":"button",
+                  "text":"What do you want to do next?",
+                  "buttons":[
+                    {
+                      "type":"web_url",
+                      "url":"https://www.messenger.com",
+                      "title":"Visit Messenger"
+                    }
+                  ]
+                }
+              }
+        };
 
         callSendAPI(sender_psid, response1);
     }
