@@ -66,7 +66,7 @@ app.post("/ai", (req, res) => {
     } else if (req.body.result.action === 'weather' && req.body.result.parameters.date.length != 0) {
         let city = req.body.result.parameters['geo-city'];
         let date = req.body.result.parameters['date'];
-        let objects = req.body.result.parameters.any[0];
+        // let objects = req.body.result.parameters.any[0];
         city = city.toString().replace(' ', '+');
         let latitude;
         let longitude;
