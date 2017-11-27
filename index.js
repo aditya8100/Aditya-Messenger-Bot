@@ -121,17 +121,19 @@ app.post("/ai", (req, res) => {
             "attachment":  {
                 "type": "template",
                 "payload": {
-                    "template_type": "button",
-                    "text": msg1,
-                    "buttons": [
-                        {
-                            "type": "web_url",
-                            "url": msg,
-                            "title": "Send Email!",
-                            "webview_height_ratio": "full",
-                            "fallback_url": msg
-                        }
-                    ]
+                    "template_type": "generic",
+                    "elements": [{
+                        "text": msg1,
+                        "buttons": [
+                            {
+                                "type": "web_url",
+                                "url": msg,
+                                "title": "Send Email!",
+                                "webview_height_ratio": "full",
+                                "fallback_url": msg
+                            }
+                        ]
+                    }]
                 }
             }
         }
