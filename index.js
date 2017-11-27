@@ -115,7 +115,7 @@ app.post("/ai", (req, res) => {
         let emailBody = req.body.result.parameters.any[0];
         emailBody = emailBody.replace(" ", "%20");
 
-        let msg = 'mailto:' + emailID + '?subject=Sent%20from%20Messenger%20Bot&body=' + emailBody;
+        let msg = "https://www.google.com";
         let msg1 = "Click the link below to send your email!"
         let response1 = {
             "attachment":{
