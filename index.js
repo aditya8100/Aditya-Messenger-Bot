@@ -1,11 +1,12 @@
 'use strict';
 
+require('dotenv').config({path: __dirname + '/.env'})
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const app = express().use(bodyParser.json());
-const PAGE_ACCESS_TOKEN = "EAAB4eGl2AZBABAIYPRzEHOV6xYuomrXOOl5houOwtdUV2LHpTGzm0UlEIRPXl0RCl5pJ9tPAB4qm91y36rniQkXZCyeWEuYO4FZAVJQ5MmgCvcmLVr8SOyF6WHJ75dJLTMRc5lFNKVjZB98bDTUujiZBHWYJww4tXbxzxAYROaQZDZD"
-const apiaiApp = require('apiai')("faa5c2fbf7c84495991bfc8ef51109e4");
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN
+const apiaiApp = require('apiai')(process.env.APIAI_KEY);
 const moment = require('moment');
 let sender_psid;
 
@@ -44,7 +45,7 @@ app.post("/ai", (req, res) => {
     if (req.body.result.action === 'weather' && req.body.result.parameters['date'].length == 0) {
         let city = req.body.result.parameters['geo-city']
         city = city.toString().replace(' ', '+')
-        let restUrl = 'https://api.openweathermap.org/data/2.5/weather?APPID=62c3e8807b031a9af517a8208bee4328&q=' + city;
+        let restUrl = 'https://api.openweathermap.org/data/2.5/weather?APPID=' + process.env.WEATHER_APP_TOKEN + '&q=' + city;
         console.log("URL: " + restUrl)
         request.get(restUrl, (err, res, body) => {
             let data = JSON.parse(body);
@@ -71,7 +72,7 @@ app.post("/ai", (req, res) => {
         let latitude;
         let longitude;
         let msg;
-        let restUrlForCoordinates = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + city + '&key=AIzaSyDl13M8F847qaijXKn-xQT5KxincNWPkeY';
+        let restUrlForCoordinates = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + city + '&key=' + process.env.GOOGLE_MAPS_APP_KEY;
 
         request.get(restUrlForCoordinates, (err, res, body) => {
             if (!err && res.statusCode == 200) {
